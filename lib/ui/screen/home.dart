@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
             shadowOpacity: .3,
             width: 150,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: ClipRRect(
