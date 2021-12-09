@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomCard extends StatelessWidget {
   final GestureTapCallback? onTap;
   final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
   final double? height;
   final double? width;
   final Color bgColor;
@@ -18,6 +19,7 @@ class CustomCard extends StatelessWidget {
   const CustomCard({
     Key? key,
     this.onTap,
+    this.margin = EdgeInsets.zero,
     this.padding = EdgeInsets.zero,
     this.height,
     this.width,
@@ -35,6 +37,7 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin,
       padding: padding,
       width: width,
       height: height,
