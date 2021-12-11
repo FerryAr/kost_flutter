@@ -40,9 +40,8 @@ class KostController extends GetxController {
           borderRadius: 10,
           //margin: EdgeInsets.all(10),
           snackStyle: SnackStyle.FLOATING,
-          duration: Duration(seconds: 2));
+          duration: const Duration(seconds: 2));
     }
-    ;
     // } catch (e) {
     //   print(e);
     // }

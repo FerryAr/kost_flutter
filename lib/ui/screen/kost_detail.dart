@@ -1,11 +1,13 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:kost/common/controllers/kost_by_id_controller.dart';
 import 'package:kost/common/controllers/kost_detail_controller.dart';
 import 'package:kost/ui/widgets/custom_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-const baseUrl = "http://192.168.218.254/kost";
+const baseUrl = "http://192.168.218.148/kost";
 
 class KostDetail extends StatelessWidget {
   final kostByIdController = Get.put(KostByIdController());
@@ -90,6 +92,61 @@ class KostDetail extends StatelessWidget {
                             )
                           ],
                         ),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        const DottedLine(
+                          dashColor: Colors.black38,
+                        ),
+                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Kos disewakan oleh " +
+                                    kostByIdController.kost.pemilik,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  const Text(
+                                    "Kontak : ",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    child: Container(
+                                      margin: const EdgeInsets.only(top: 2),
+                                      child: Text(
+                                        kostByIdController.kost.noHp,
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                    onTap: () => launch(
+                                        'https://wa.me/${kostByIdController.kost.noHp.replaceFirst("0", "+62")}'),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Divider(
+                          thickness: 1.5,
+                          color: Colors.black12,
+                        ),
                       ],
                     ),
                   ),
@@ -97,14 +154,14 @@ class KostDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.arrow_back),
+                        icon: const Icon(Icons.arrow_back),
                         color: Colors.white,
                         onPressed: () {
                           Get.back();
                         },
                       ),
                       IconButton(
-                        icon: Icon(Icons.home_outlined),
+                        icon: const Icon(Icons.home_outlined),
                         color: Colors.white,
                         onPressed: () => Get.offAllNamed('/'),
                       ),

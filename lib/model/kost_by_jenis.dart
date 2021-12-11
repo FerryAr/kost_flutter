@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final kostByJenis = kostByJenisFromJson(jsonString);
+
 import 'dart:convert';
 
 KostByJenis kostByJenisFromJson(String str) =>
@@ -7,7 +11,7 @@ String kostByJenisToJson(KostByJenis data) => json.encode(data.toJson());
 
 class KostByJenis {
   KostByJenis({
-    this.status = "",
+    this.status = '',
     required this.data,
   });
 
@@ -35,8 +39,10 @@ class Kost {
     this.alamat = '',
     this.noHp = '',
     this.jenis = '',
+    this.type = '',
+    this.harga = '',
     this.areaTerdekat = '',
-    this.fotoUnggulan = '',
+    this.foto = '',
   });
 
   String idKost;
@@ -45,8 +51,10 @@ class Kost {
   String alamat;
   String noHp;
   String jenis;
+  String type;
+  String harga;
   String areaTerdekat;
-  String fotoUnggulan;
+  String foto;
 
   factory Kost.fromJson(Map<String, dynamic> json) => Kost(
         idKost: json["id_kost"] == null ? null : json["id_kost"],
@@ -55,10 +63,11 @@ class Kost {
         alamat: json["alamat"] == null ? null : json["alamat"],
         noHp: json["no_hp"] == null ? null : json["no_hp"],
         jenis: json["jenis"] == null ? null : json["jenis"],
+        type: json["type"] == null ? null : json["type"],
+        harga: json["harga"] == null ? null : json["harga"],
         areaTerdekat:
             json["area_terdekat"] == null ? null : json["area_terdekat"],
-        fotoUnggulan:
-            json["foto_unggulan"] == null ? null : json["foto_unggulan"],
+        foto: json["foto"] == null ? null : json["foto"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -68,7 +77,9 @@ class Kost {
         "alamat": alamat == null ? null : alamat,
         "no_hp": noHp == null ? null : noHp,
         "jenis": jenis == null ? null : jenis,
+        "type": type == null ? null : type,
+        "harga": harga == null ? null : harga,
         "area_terdekat": areaTerdekat == null ? null : areaTerdekat,
-        "foto_unggulan": fotoUnggulan == null ? null : fotoUnggulan,
+        "foto": foto == null ? null : foto,
       };
 }

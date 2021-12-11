@@ -23,12 +23,10 @@ class KostByIdController extends GetxController {
     super.onInit();
 
     idKost = Get.arguments['idKost'];
-    print(idKost);
     getKost(idKost);
   }
 
   void getKost(String idKost) async {
     setKost = (await KostService().fetchDataKostById(idKost)).data;
-    print(kost);
   }
 }

@@ -35,7 +35,7 @@ class KostDetailController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           borderRadius: 10,
           snackStyle: SnackStyle.FLOATING,
-          duration: Duration(seconds: 2));
+          duration: const Duration(seconds: 2));
     }
   }
 }
