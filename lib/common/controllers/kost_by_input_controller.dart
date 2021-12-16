@@ -23,6 +23,5 @@ class KostByInputController extends GetxController {
 
   void getDataKostInput(String input) async {
     setDaftarKost = (await KostService().fetchDataKostInput(input)).data;
-    print(input);
   }
 }

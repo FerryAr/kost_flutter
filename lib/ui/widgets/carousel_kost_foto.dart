@@ -20,8 +20,8 @@ class _CarouselFotoState extends State<CarouselFoto> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => kostByIdController.kost.foto.length <= 0
-          ? SizedBox()
+      () => kostByIdController.kost.foto.isEmpty
+          ? const SizedBox()
           : Column(
               children: [
                 Stack(

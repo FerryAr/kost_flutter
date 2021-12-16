@@ -26,7 +26,5 @@ class KostFasilitasController extends GetxController {
 
   void getFasilitas(idKost) async {
     setFasilitas = (await KostService().fetchDataFasilitasKost(idKost)).data;
-
-    print(fasilitas);
   }
 }

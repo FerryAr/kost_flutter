@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kost/model/data_jenis_kost.dart';
-import 'package:kost/ui/screen/view_jenis.dart';
 import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
@@ -137,17 +136,17 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _passDataJenis(BuildContext context, String idJenis, String namaJenis) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ViewJenis(
-            // idJenis: idJenis,
-            // namaJenis: namaJenis,
-            ),
-      ),
-    );
-  }
+  //void _passDataJenis(BuildContext context, String idJenis, String namaJenis) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => ViewJenis(
+  //           // idJenis: idJenis,
+  //           // namaJenis: namaJenis,
+  //           ),
+  //     ),
+  //   );
+  // }
 
   Widget categoryCard() {
     // ignore: sized_box_for_whitespace
