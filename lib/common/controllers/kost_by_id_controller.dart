@@ -28,5 +28,6 @@ class KostByIdController extends GetxController {
 
   void getKost(String idKost) async {
     setKost = (await KostService().fetchDataKostById(idKost)).data;
+    print(kost.foto.length);
   }
 }

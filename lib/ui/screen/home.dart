@@ -9,7 +9,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
-const baseUrl = "http://192.168.218.148/kost";
+const baseUrl = "http://192.168.88.102/kost";
 const apiKey = "691ACB";
 
 Future<DataJenisKost> fetchDataJenis() async {
@@ -251,29 +251,32 @@ class _HomeState extends State<Home> {
   }
 
   Widget searchBox() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.search,
-            color: Colors.grey,
-            size: 20,
-          ),
-          const SizedBox(width: 20),
-          Text(
-            'Cari Kost di sini',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.grey[400],
+    return InkWell(
+      onTap: () => Get.toNamed('/searchview'),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.search,
+              color: Colors.grey,
+              size: 20,
             ),
-          ),
-        ],
+            const SizedBox(width: 20),
+            Text(
+              'Cari Kost di sini',
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.grey[400],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -311,76 +314,85 @@ class _HomeState extends State<Home> {
       ),
       body: Stack(
         children: [
-          ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              searchBox(),
-              const SizedBox(height: 15),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  carouselIklan(),
-                  const SizedBox(height: 25),
-                  const Text(
-                    "Hai, ",
-                    style: TextStyle(
-                      fontSize: 15,
-                      //fontWeight: FontWeight.bold,
-                      color: Colors.black,
+          SingleChildScrollView(
+            child: ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(20),
+              children: [
+                const SizedBox(height: 15),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 25),
+                    carouselIklan(),
+                    const SizedBox(height: 25),
+                    const Text(
+                      "Hai, ",
+                      style: TextStyle(
+                        fontSize: 15,
+                        //fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 2),
-                  const Text(
-                    "Lagi Cari Apa?",
-                    style: TextStyle(
-                      fontSize: 20,
-                      //fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                    const SizedBox(height: 2),
+                    const Text(
+                      "Lagi Cari Apa?",
+                      style: TextStyle(
+                        fontSize: 20,
+                        //fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  categoryCard(),
-                  const SizedBox(height: 20),
-                  qr(),
-                  const SizedBox(height: 25),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    height: 150,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.black12),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        SizedBox(height: 15),
-                        Center(
-                          child: Text(
-                            "Jadi Lebih Tangguh Saat Cari Kos",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                    const SizedBox(height: 15),
+                    categoryCard(),
+                    const SizedBox(height: 20),
+                    qr(),
+                    const SizedBox(height: 25),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      height: 150,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.black12),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          SizedBox(height: 15),
+                          Center(
+                            child: Text(
+                              "Jadi Lebih Tangguh Saat Cari Kos",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          '#TangguhBersama pilih kos terbaik hanya di Mamikos',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black87,
-                            //fontWeight: FontWeight.w100,
+                          SizedBox(height: 5),
+                          Text(
+                            '#TangguhBersama pilih kos terbaik hanya di Mamikos',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                              //fontWeight: FontWeight.w100,
+                            ),
+                            //overflow: TextOverflow.ellipsis,
                           ),
-                          //overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
+          Positioned(
+            top: 1,
+            left: 10,
+            right: 10,
+            child: searchBox(),
+          )
         ],
       ),
     );

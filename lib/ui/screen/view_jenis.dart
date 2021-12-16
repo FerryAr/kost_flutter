@@ -5,11 +5,17 @@ import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-const baseUrl = "http://192.168.218.148/kost";
+const baseUrl = "http://192.168.88.102/kost";
 const apiKey = "691ACB";
 
 class ViewJenis extends StatelessWidget {
   final controller = Get.put(KostController());
+  final List<String> satuanHarga = [
+    " / hari",
+    " / minggu",
+    " / bulan",
+    " / tahun"
+  ];
 
   // String idJenis;
   // String namaJenis;
@@ -124,8 +130,11 @@ class ViewJenis extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(top: 15, left: 6),
                             child: Text(
-                              NumberFormat.simpleCurrency(locale: 'id_ID')
-                                  .format(int.parse(kost.harga)),
+                              NumberFormat.simpleCurrency(
+                                          locale: 'id_ID', decimalDigits: 0)
+                                      .format(int.parse(kost.harga)) +
+                                  " " +
+                                  satuanHarga[int.parse(kost.jenisId) - 1],
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,

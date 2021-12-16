@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kost/ui/screen/home.dart';
 import 'package:kost/ui/screen/kost_detail.dart';
+import 'package:kost/ui/screen/search_view.dart';
 import 'package:kost/ui/screen/view_jenis.dart';
 
 void main() {
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/', page: () => const Home()),
         GetPage(name: '/viewjenis', page: () => ViewJenis()),
         GetPage(name: '/kostbyid', page: () => KostDetail()),
+        GetPage(name: '/searchview', page: () => const SearchView()),
       ],
     );
   }

@@ -31,48 +31,56 @@ class KostByIdModel {
 
 class KostById {
   KostById({
-    this.id = '',
+    this.idKost = '',
     this.namaKost = '',
     this.pemilik = '',
     this.alamat = '',
     this.noHp = '',
+    this.jenisId = '',
     this.jenis = '',
     this.type = '',
+    this.harga = '0',
+    this.foto = const [],
     this.areaTerdekat = '',
-    this.fotoUnggulan = '',
   });
 
-  String id;
+  String idKost;
   String namaKost;
   String pemilik;
   String alamat;
   String noHp;
+  String jenisId;
   String jenis;
   String type;
+  String harga;
+  List<String> foto = [];
   String areaTerdekat;
-  String fotoUnggulan;
 
   factory KostById.fromJson(Map<String, dynamic> json) => KostById(
-        id: json["id"],
+        idKost: json["id_kost"],
         namaKost: json["nama_kost"],
         pemilik: json["pemilik"],
         alamat: json["alamat"],
         noHp: json["no_hp"],
+        jenisId: json["jenis_id"],
         jenis: json["jenis"],
-        type: json['type'],
+        type: json["type"],
+        harga: json["harga"],
+        foto: List<String>.from(json["foto"].map((x) => x)),
         areaTerdekat: json["area_terdekat"],
-        fotoUnggulan: json["foto_unggulan"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "id_kost": idKost,
         "nama_kost": namaKost,
         "pemilik": pemilik,
         "alamat": alamat,
         "no_hp": noHp,
+        "jenis_id": jenisId,
         "jenis": jenis,
-        'type': type,
+        "type": type,
+        "harga": harga,
+        "foto": List<dynamic>.from(foto.map((x) => x)),
         "area_terdekat": areaTerdekat,
-        "foto_unggulan": fotoUnggulan,
       };
 }
