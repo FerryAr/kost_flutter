@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kost/common/controllers/slider_iklan_controller.dart';
 import 'package:kost/model/data_jenis_kost.dart';
 import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -47,63 +49,68 @@ class _HomeState extends State<Home> {
   }
 
   Widget carouselIklan() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CarouselSlider.builder(
-          carouselController: CarouselController(),
-          itemCount: 5,
-          itemBuilder:
-              (BuildContext context, int itemIndex, int pageViewIndex) =>
-                  Container(
-            margin: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(.5),
-                  blurRadius: 3.5,
-                ),
-              ],
-            ),
-            child: Image.network(
-              imgList[itemIndex],
-              fit: BoxFit.fill,
-              width: 1000,
-            ),
-          ),
-          options: CarouselOptions(
-            autoPlay: true,
-            aspectRatio: 2.0,
-            enlargeCenterPage: true,
-            enlargeStrategy: CenterPageEnlargeStrategy.height,
-            viewportFraction: 0.9,
-            initialPage: 0,
-            enableInfiniteScroll: true,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _current = index;
-              });
-            },
-          ),
-        ),
-        Row(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          children: imgList.map((url) {
-            int index = imgList.indexOf(url);
-            return Container(
-              width: 8.0,
-              height: 8.0,
-              margin:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+    final sliderController = Get.put(SliderController());
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CarouselSlider.builder(
+            carouselController: CarouselController(),
+            itemCount: sliderController.slider.fotoIklan.length,
+            itemBuilder:
+                (BuildContext context, int itemIndex, int pageViewIndex) =>
+                    Container(
+              margin: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _current == index ? Colors.green : Colors.grey,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(.5),
+                    blurRadius: 3.5,
+                  ),
+                ],
               ),
-            );
-          }).toList(),
-        ),
-      ],
+              child: CachedNetworkImage(
+                imageUrl: baseUrl +
+                    "/assets/img/sliders/" +
+                    sliderController.slider.fotoIklan[itemIndex],
+                fit: BoxFit.fill,
+                width: 1000,
+              ),
+            ),
+            options: CarouselOptions(
+              autoPlay: true,
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
+              viewportFraction: 0.9,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                });
+              },
+            ),
+          ),
+          Row(
+            //mainAxisAlignment: MainAxisAlignment.start,
+            children: sliderController.slider.fotoIklan.map((url) {
+              int index = sliderController.slider.fotoIklan.indexOf(url);
+              return Container(
+                width: 8.0,
+                height: 8.0,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _current == index ? Colors.green : Colors.grey,
+                ),
+              );
+            }).toList(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -181,8 +188,9 @@ class _HomeState extends State<Home> {
                       Expanded(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            "https://images.unsplash.com/photo-1470075801209-17f9ec0cada6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                "https://images.unsplash.com/photo-1470075801209-17f9ec0cada6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
                             fit: BoxFit.fill,
                             width: double.infinity,
                             height: double.infinity,
@@ -212,40 +220,6 @@ class _HomeState extends State<Home> {
           );
         },
       ),
-      // ListView(
-      //   scrollDirection: Axis.horizontal,
-      //   children: [
-      //     CustomCard(
-      //       isShadow: true,
-      //       bgColor: Colors.white,
-      //       shadowOpacity: .3,
-      //       width: 120,
-      //       child: Column(
-      //         crossAxisAlignment: CrossAxisAlignment.start,
-      //         children: [
-      //           Expanded(
-      //             child: ClipRRect(
-      //               borderRadius: BorderRadius.circular(10),
-      //               child: Image.network(
-      //                 "https://images.unsplash.com/photo-1470075801209-17f9ec0cada6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
-      //                 fit: BoxFit.fill,
-      //                 width: double.infinity,
-      //                 height: double.infinity,
-      //               ),
-      //             ),
-      //           ),
-      //           const Padding(
-      //               padding: EdgeInsets.all(10),
-      //               child: Text(
-      //                 "Kamar Kost",
-      //                 style: TextStyle(),
-      //                 textAlign: TextAlign.start,
-      //               )),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 

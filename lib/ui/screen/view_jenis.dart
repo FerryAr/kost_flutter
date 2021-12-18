@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kost/common/controllers/kost_controller.dart';
@@ -61,8 +62,9 @@ class ViewJenis extends StatelessWidget {
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
                         ),
-                        child: Image.network(
-                          "$baseUrl/assets/img/${kost.foto}",
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              "$baseUrl/assets/img/foto_kost/${kost.foto}",
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: double.infinity,

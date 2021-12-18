@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kost/common/controllers/kost_by_id_controller.dart';
@@ -32,8 +33,9 @@ class _CarouselFotoState extends State<CarouselFoto> {
                       itemCount: kostByIdController.kost.foto.length,
                       itemBuilder: (BuildContext context, int itemIndex,
                               int pageViewIndex) =>
-                          Image.network(
-                        "$baseUrl/assets/img/${kostByIdController.kost.foto[itemIndex]}",
+                          CachedNetworkImage(
+                        imageUrl:
+                            "$baseUrl/assets/img/foto_kost/${kostByIdController.kost.foto[itemIndex]}",
                         fit: BoxFit.cover,
                         width: 1280,
                         height: 720,

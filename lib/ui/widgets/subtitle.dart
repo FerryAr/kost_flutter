@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kost/common/my_colors.dart';
 import 'package:kost/common/my_font_size.dart';
@@ -32,8 +33,8 @@ class Subtitle extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image.network(
-                        iconPath!,
+                      CachedNetworkImage(
+                        imageUrl: iconPath!,
                         height: 25,
                         width: 25,
                       ),
