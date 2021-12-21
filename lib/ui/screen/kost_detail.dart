@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,10 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:kost/common/controllers/kost_by_id_controller.dart';
 import 'package:kost/common/controllers/kost_fasilitas_controller.dart';
 import 'package:kost/ui/widgets/carousel_kost_foto.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-const baseUrl = "http://192.168.88.102/kost";
+const baseUrl = "http://192.168.170.59/kost";
 
 class KostDetail extends StatelessWidget {
   final kostByIdController = Get.put(KostByIdController());
@@ -22,6 +22,27 @@ class KostDetail extends StatelessWidget {
     " / bulan",
     " / tahun"
   ];
+
+  String diffOnline(int timestamp) {
+    var now = DateTime.now();
+    var date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    var diff = now.difference(date);
+    var diffDays = diff.inDays;
+    var diffHours = diff.inHours;
+    var diffMinutes = diff.inMinutes;
+    var diffSeconds = diff.inSeconds;
+    if (diffDays > 0) {
+      return "$diffDays hari yang lalu";
+    } else if (diffHours > 0) {
+      return "$diffHours jam yang lalu";
+    } else if (diffMinutes > 0) {
+      return "$diffMinutes menit yang lalu";
+    } else if (diffSeconds > 0) {
+      return "$diffSeconds detik yang lalu";
+    } else {
+      return "Baru saja";
+    }
+  }
 
   Widget hargaBox() {
     return Container(
@@ -62,17 +83,12 @@ class KostDetail extends StatelessWidget {
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.white,
-        // appBar: AppBar(
-        //   automaticallyImplyLeading: false,
-        //   foregroundColor: Colors.black54,
-        //   backgroundColor: Colors.white,
-        //   elevation: 0,
-        // ),
         body: SafeArea(
           child: Stack(
             children: [
               SingleChildScrollView(
                 child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
@@ -139,48 +155,76 @@ class KostDetail extends StatelessWidget {
                     const SizedBox(height: 8),
                     Padding(
                       padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Kos disewakan oleh " +
-                                kostByIdController.kost.pemilik,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              IconButton(
-                                  // Use the FaIcon Widget + FontAwesomeIcons class for the IconData
-                                  icon: const Icon(MdiIcons.whatsapp),
-                                  onPressed: () {}),
-                              // const Text(
-                              //   "Kontak : ",
-                              //   style: TextStyle(
-                              //     fontSize: 15,
-                              //     color: Colors.black87,
-                              //   ),
-                              // ),
-                              InkWell(
-                                child: Container(
-                                  margin: const EdgeInsets.only(top: 2),
-                                  child: Text(
-                                    kostByIdController.kost.noHp,
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
+                              Text(
+                                "Kos disewakan oleh " +
+                                    kostByIdController.kost.dataOperator,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
                                 ),
-                                onTap: () => launch(
-                                    'https://wa.me/${kostByIdController.kost.noHp.replaceFirst("0", "+62")}'),
                               ),
+                              const SizedBox(height: 8),
+                              kostByIdController
+                                      .kost.operatorLoginStatus.isEmpty
+                                  ? Container()
+                                  : kostByIdController
+                                              .kost.operatorLoginStatus ==
+                                          '1'
+                                      ? Row(
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  right: 8),
+                                              width: 8,
+                                              height: 8,
+                                              decoration: const BoxDecoration(
+                                                color: Colors.green,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                            const Text(
+                                              "Sedang Online",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : kostByIdController
+                                              .kost.operatorLastLogout.isEmpty
+                                          ? Container()
+                                          : Text(
+                                              "Aktif " +
+                                                  diffOnline(int.parse(
+                                                      kostByIdController.kost
+                                                          .operatorLastLogout)),
+                                            ),
                             ],
                           ),
+                          CachedNetworkImage(
+                              imageUrl:
+                                  "$baseUrl/assets/img/avatars/${kostByIdController.kost.operatorAvatar}",
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover),
+                                    ),
+                                  ),
+                              fit: BoxFit.cover),
                         ],
                       ),
                     ),
@@ -201,6 +245,7 @@ class KostDetail extends StatelessWidget {
                     ),
                     ListView.builder(
                       shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: fasilitasController.fasilitas.fasilitas.length,
                       itemBuilder: (context, index) {
                         final icon = fasilitasController.fasilitas.icon[index];
@@ -232,6 +277,9 @@ class KostDetail extends StatelessWidget {
                         );
                       },
                     ),
+                    // Expanded(
+                    //   child: hargaBox(),
+                    // )
                   ],
                 ),
               ),
@@ -251,10 +299,6 @@ class KostDetail extends StatelessWidget {
                     onPressed: () => Get.offAllNamed('/'),
                   ),
                 ],
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: hargaBox(),
               ),
             ],
           ),

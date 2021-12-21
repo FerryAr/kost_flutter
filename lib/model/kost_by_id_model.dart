@@ -40,6 +40,10 @@ class KostById {
     this.jenis = '',
     this.type = '',
     this.harga = '0',
+    this.dataOperator = '',
+    this.operatorLastLogout = '',
+    this.operatorLoginStatus = '',
+    this.operatorAvatar = '',
     this.foto = const [],
     this.areaTerdekat = '',
   });
@@ -53,6 +57,10 @@ class KostById {
   String jenis;
   String type;
   String harga;
+  String dataOperator;
+  String operatorAvatar;
+  String operatorLastLogout;
+  String operatorLoginStatus;
   List<String> foto = [];
   String areaTerdekat;
 
@@ -66,6 +74,10 @@ class KostById {
         jenis: json["jenis"],
         type: json["type"],
         harga: json["harga"],
+        dataOperator: json['operator'],
+        operatorAvatar: json['operator_avatar'],
+        operatorLastLogout: json['operator_last_logout'],
+        operatorLoginStatus: json['operator_login_status'],
         foto: List<String>.from(json["foto"].map((x) => x)),
         areaTerdekat: json["area_terdekat"],
       );
@@ -80,6 +92,7 @@ class KostById {
         "jenis": jenis,
         "type": type,
         "harga": harga,
+        "operator": dataOperator,
         "foto": List<dynamic>.from(foto.map((x) => x)),
         "area_terdekat": areaTerdekat,
       };
