@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kost/common/helper/get_storage_helper.dart';
 import 'package:kost/ui/screen/home.dart';
 import 'package:kost/ui/screen/kost_detail.dart';
+import 'package:kost/ui/screen/profil.dart';
 import 'package:kost/ui/screen/search_view.dart';
 import 'package:kost/ui/screen/view_jenis.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -30,6 +34,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/viewjenis', page: () => ViewJenis()),
         GetPage(name: '/kostbyid', page: () => KostDetail()),
         GetPage(name: '/searchview', page: () => const SearchView()),
+        GetPage(name: '/profil', page: () => ProfilScreen()),
       ],
     );
   }

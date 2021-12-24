@@ -3,14 +3,16 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:kost/common/controllers/slider_iklan_controller.dart';
+import 'package:kost/common/helper/get_storage_helper.dart';
 import 'package:kost/model/data_jenis_kost.dart';
 import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
-const baseUrl = "http://192.168.170.59/kost";
+const baseUrl = "http://192.168.19.82/kost";
 const apiKey = "691ACB";
 
 Future<DataJenisKost> fetchDataJenis() async {
@@ -34,13 +36,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late Future<DataJenisKost> futureDataJenis;
   int _current = 0;
-  List<String> imgList = [
-    'https://promo.mamikos.com/wp-content/uploads/2021/11/Homebanner-_-Promo-Page-SS.png',
-    'https://promo.mamikos.com/wp-content/uploads/2021/11/Homebanner-_-Promo-Page-Apik.png',
-    'https://promo.mamikos.com/wp-content/uploads/2021/11/Homebanner-Promo_Gajian-Kos-Andalan_Nov.png',
-    'https://promo.mamikos.com/wp-content/uploads/2021/11/Homebanner-Promo_BBK-HUT-6th.png',
-    'https://promo.mamikos.com/wp-content/uploads/2021/09/Banner-Promo-SinggahLama.png',
-  ];
 
   @override
   void initState() {
@@ -54,45 +49,47 @@ class _HomeState extends State<Home> {
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CarouselSlider.builder(
-            carouselController: CarouselController(),
-            itemCount: sliderController.slider.fotoIklan.length,
-            itemBuilder:
-                (BuildContext context, int itemIndex, int pageViewIndex) =>
-                    Container(
-              margin: const EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(.5),
-                    blurRadius: 3.5,
+          sliderController.slider.fotoIklan.isEmpty
+              ? Container()
+              : CarouselSlider.builder(
+                  carouselController: CarouselController(),
+                  itemCount: sliderController.slider.fotoIklan.length,
+                  itemBuilder: (BuildContext context, int itemIndex,
+                          int pageViewIndex) =>
+                      Container(
+                    margin: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(.5),
+                          blurRadius: 3.5,
+                        ),
+                      ],
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: baseUrl +
+                          "/assets/img/sliders/" +
+                          sliderController.slider.fotoIklan[itemIndex],
+                      fit: BoxFit.fill,
+                      width: 1000,
+                    ),
                   ),
-                ],
-              ),
-              child: CachedNetworkImage(
-                imageUrl: baseUrl +
-                    "/assets/img/sliders/" +
-                    sliderController.slider.fotoIklan[itemIndex],
-                fit: BoxFit.fill,
-                width: 1000,
-              ),
-            ),
-            options: CarouselOptions(
-              autoPlay: true,
-              aspectRatio: 2.0,
-              enlargeCenterPage: true,
-              enlargeStrategy: CenterPageEnlargeStrategy.height,
-              viewportFraction: 0.9,
-              initialPage: 0,
-              enableInfiniteScroll: true,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              },
-            ),
-          ),
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    aspectRatio: 2.0,
+                    enlargeCenterPage: true,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    viewportFraction: 0.9,
+                    initialPage: 0,
+                    enableInfiniteScroll: true,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    },
+                  ),
+                ),
           Row(
             //mainAxisAlignment: MainAxisAlignment.start,
             children: sliderController.slider.fotoIklan.map((url) {
@@ -267,11 +264,41 @@ class _HomeState extends State<Home> {
           ),
         ),
         const Spacer(),
-        IconButton(
-          icon: const Icon(Icons.notifications_none_outlined),
-          color: Colors.black54,
-          onPressed: () {},
-        ),
+        GetStorageBox().box.read('isLoggedIn') == null
+            ? InkWell(
+                onTap: () {
+                  Get.toNamed('/profil');
+                },
+                child: Container(
+                  width: 35.0,
+                  height: 35.0,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage('assets/img/blank-avatar.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              )
+            : InkWell(
+                onTap: () {
+                  Get.toNamed('/profil');
+                },
+                child: CachedNetworkImage(
+                    imageUrl:
+                        "$baseUrl/assets/img/avatars/${GetStorageBox().box.read('userAvatar')}",
+                    imageBuilder: (context, imageProvider) => Container(
+                          width: 35.0,
+                          height: 35.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                          ),
+                        ),
+                    fit: BoxFit.cover),
+              ),
       ],
     );
   }
@@ -367,6 +394,52 @@ class _HomeState extends State<Home> {
             child: searchBox(),
           )
         ],
+      ),
+    );
+  }
+}
+
+class ListItems extends StatelessWidget {
+  const ListItems({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scrollbar(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: ListView(
+          padding: const EdgeInsets.all(8),
+          children: [
+            InkWell(
+              onTap: () {
+                // Navigator.of(context)
+                //   ..pop()
+                //   ..push(
+                //     MaterialPageRoute<SecondRoute>(
+                //       builder: (context) => SecondRoute(),
+                //     ),
+                //   );
+              },
+              child: Container(
+                height: 50,
+                color: Colors.amber[100],
+                child: const Center(child: Text('Entry A')),
+              ),
+            ),
+            const Divider(),
+            Container(
+              height: 50,
+              color: Colors.amber[200],
+              child: const Center(child: Text('Entry B')),
+            ),
+            const Divider(),
+            Container(
+              height: 50,
+              color: Colors.amber[300],
+              child: const Center(child: Text('Entry C')),
+            ),
+          ],
+        ),
       ),
     );
   }

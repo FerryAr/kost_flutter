@@ -49,6 +49,9 @@ dependencies:
   intl: ^0.17.0
   cached_network_image: ^3.2.0
   material_design_icons_flutter: ^5.0.6595
+  rflutter_alert: ^2.0.4
+  get_storage: ^2.0.3
+
 
 dev_dependencies:
   flutter_test:
@@ -102,3 +105,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+  assets:
+    - assets/img/

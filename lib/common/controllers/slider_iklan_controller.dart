@@ -21,6 +21,5 @@ class SliderController extends GetxController {
 
   void getSlider() async {
     setSlider = (await SliderService().fetchSlider()).data;
-    print(slider);
   }
 }

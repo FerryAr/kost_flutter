@@ -6,14 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:kost/common/controllers/kost_by_id_controller.dart';
 import 'package:kost/common/controllers/kost_fasilitas_controller.dart';
 import 'package:kost/ui/widgets/carousel_kost_foto.dart';
+import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-const baseUrl = "http://192.168.170.59/kost";
+const baseUrl = "http://192.168.19.82/kost";
 
 class KostDetail extends StatelessWidget {
   final kostByIdController = Get.put(KostByIdController());
   final fasilitasController = Get.put(KostFasilitasController());
-  //final kostDetailController = KostDetailController();
   KostDetail({Key? key}) : super(key: key);
 
   final List<String> satuanHarga = [
@@ -50,27 +50,39 @@ class KostDetail extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black12),
       ),
-      height: 80,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15, left: 10),
-            child: Row(
-              children: [
-                if (kostByIdController.kost.jenisId.isNotEmpty) ...[
-                  Text(
-                    NumberFormat.simpleCurrency(
-                                locale: 'id_ID', decimalDigits: 0)
-                            .format(int.parse(kostByIdController.kost.harga)) +
-                        " " +
-                        satuanHarga[
-                            int.parse(kostByIdController.kost.jenisId) - 1],
-                    style: const TextStyle(
-                        fontSize: 19, fontWeight: FontWeight.bold),
-                  ),
-                ],
+          Row(
+            children: [
+              if (kostByIdController.kost.jenisId.isNotEmpty) ...[
+                Text(
+                  NumberFormat.simpleCurrency(locale: 'id_ID', decimalDigits: 0)
+                          .format(int.parse(kostByIdController.kost.harga)) +
+                      " " +
+                      satuanHarga[
+                          int.parse(kostByIdController.kost.jenisId) - 1],
+                  style: const TextStyle(
+                      fontSize: 19, fontWeight: FontWeight.bold),
+                ),
               ],
+            ],
+          ),
+          const InkWell(
+            child: CustomCard(
+              width: 100,
+              height: 35,
+              bgColor: Colors.green,
+              borderRadius: BorderRadius.zero,
+              isShadow: false,
+              child: Center(
+                child: Text(
+                  "Ajukan Sewa",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ),
             ),
           ),
         ],
@@ -83,6 +95,7 @@ class KostDetail extends StatelessWidget {
     return Obx(
       () => Scaffold(
         backgroundColor: Colors.white,
+        bottomSheet: hargaBox(),
         body: SafeArea(
           child: Stack(
             children: [
@@ -210,21 +223,23 @@ class KostDetail extends StatelessWidget {
                                             ),
                             ],
                           ),
-                          CachedNetworkImage(
-                              imageUrl:
-                                  "$baseUrl/assets/img/avatars/${kostByIdController.kost.operatorAvatar}",
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                    width: 80.0,
-                                    height: 80.0,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                              fit: BoxFit.cover),
+                          kostByIdController.kost.operatorAvatar.isEmpty
+                              ? Container()
+                              : CachedNetworkImage(
+                                  imageUrl:
+                                      "$baseUrl/assets/img/avatars/${kostByIdController.kost.operatorAvatar}",
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                        width: 80.0,
+                                        height: 80.0,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                  fit: BoxFit.cover),
                         ],
                       ),
                     ),
@@ -277,9 +292,7 @@ class KostDetail extends StatelessWidget {
                         );
                       },
                     ),
-                    // Expanded(
-                    //   child: hargaBox(),
-                    // )
+                    const SizedBox(height: 75),
                   ],
                 ),
               ),
