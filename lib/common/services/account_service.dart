@@ -1,11 +1,26 @@
 import 'package:get/get.dart';
 import 'package:kost/model/login_data_model.dart';
+import 'package:kost/model/login_model.dart';
 import 'package:kost/model/logout_model.dart';
 
-const baseUrl = "http://192.168.119.9";
+const baseUrl = "http://192.168.80.9";
 const apiKey = "691ACB";
 
 class AccountService extends GetConnect {
+  Future<RegisterModel> register(Map<String, dynamic> form) async {
+    final response = await post(
+        "$baseUrl/kost/api/login",
+        FormData({
+          "apiKey": apiKey,
+          ...form,
+        }));
+    if (response.statusCode == 200) {
+      return RegisterModel.fromJson(response.body);
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
   Future<LoginDataModel> loginProcessService(
       String email, String password) async {
     final response = await post(

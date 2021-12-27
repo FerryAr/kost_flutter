@@ -5,9 +5,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kost/common/controllers/login_controller.dart';
 import 'package:kost/common/controllers/logout_controller.dart';
 import 'package:kost/common/helper/get_storage_helper.dart';
+import 'package:kost/ui/screen/register.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 const baseUrl = "http://192.168.119.9/kost";
 
@@ -35,7 +35,6 @@ class _ProfilScreenState extends State<ProfilScreen> {
   void initState() {
     super.initState();
     // Enable virtual display.
-    if (Platform.isAndroid) WebView.platform = AndroidWebView();
   }
 
   @override
@@ -267,7 +266,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       showDialog(
                           context: context,
                           builder: (BuildContext dialogContext) {
-                            return launcher();
+                            return RegisterPage();
                             // return WebView(
                             //   initialUrl: '$baseUrl/auth/create_user',
                             // );
