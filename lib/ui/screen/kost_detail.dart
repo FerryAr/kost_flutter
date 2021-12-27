@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kost/common/helper/get_storage_helper.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:kost/common/controllers/kost_by_id_controller.dart';
 import 'package:kost/common/controllers/kost_fasilitas_controller.dart';
@@ -9,7 +11,7 @@ import 'package:kost/ui/widgets/carousel_kost_foto.dart';
 import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-const baseUrl = "http://192.168.19.82/kost";
+const baseUrl = "http://192.168.119.9/kost";
 
 class KostDetail extends StatelessWidget {
   final kostByIdController = Get.put(KostByIdController());
@@ -40,7 +42,7 @@ class KostDetail extends StatelessWidget {
     } else if (diffSeconds > 0) {
       return "$diffSeconds detik yang lalu";
     } else {
-      return "Baru saja";
+      return "beberapa detik yang lalu";
     }
   }
 
@@ -70,21 +72,27 @@ class KostDetail extends StatelessWidget {
               ],
             ],
           ),
-          const InkWell(
-            child: CustomCard(
-              width: 100,
-              height: 35,
-              bgColor: Colors.green,
-              borderRadius: BorderRadius.zero,
-              isShadow: false,
-              child: Center(
-                child: Text(
-                  "Ajukan Sewa",
-                  style: TextStyle(fontSize: 15, color: Colors.white),
+          GetStorageBox().box.read('isLoggedIn') == null
+              ? Container()
+              : InkWell(
+                  onTap: () {
+                    launch(
+                        'https://wa.me/${kostByIdController.kost.noHp}/?text=${Uri.encodeComponent("Saya atas nama ${GetStorageBox().box.read('userFirstName')} ingin memesan kost ${kostByIdController.kost.namaKost}")}');
+                  },
+                  child: const CustomCard(
+                    width: 100,
+                    height: 35,
+                    bgColor: Colors.green,
+                    borderRadius: BorderRadius.zero,
+                    isShadow: false,
+                    child: Center(
+                      child: Text(
+                        "Ajukan Sewa",
+                        style: TextStyle(fontSize: 15, color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -184,43 +192,42 @@ class KostDetail extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              kostByIdController
-                                      .kost.operatorLoginStatus.isEmpty
+                              // kostByIdController
+                              //         .kost.operatorLoginStatus.isEmpty
+                              //     ? Container()
+                              //     : kostByIdController
+                              //                 .kost.operatorLoginStatus ==
+                              //             '1'
+                              //         ? Row(
+                              //             children: [
+                              //               Container(
+                              //                 margin: const EdgeInsets.only(
+                              //                     right: 8),
+                              //                 width: 8,
+                              //                 height: 8,
+                              //                 decoration: const BoxDecoration(
+                              //                   color: Colors.green,
+                              //                   shape: BoxShape.circle,
+                              //                 ),
+                              //               ),
+                              //               const Text(
+                              //                 "Sedang Online",
+                              //                 style: TextStyle(
+                              //                   fontSize: 15,
+                              //                   fontWeight: FontWeight.bold,
+                              //                   color: Colors.green,
+                              //                 ),
+                              //               ),
+                              //             ],
+                              //           )
+                              kostByIdController.kost.operatorLastLogin.isEmpty
                                   ? Container()
-                                  : kostByIdController
-                                              .kost.operatorLoginStatus ==
-                                          '1'
-                                      ? Row(
-                                          children: [
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  right: 8),
-                                              width: 8,
-                                              height: 8,
-                                              decoration: const BoxDecoration(
-                                                color: Colors.green,
-                                                shape: BoxShape.circle,
-                                              ),
-                                            ),
-                                            const Text(
-                                              "Sedang Online",
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.green,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      : kostByIdController
-                                              .kost.operatorLastLogout.isEmpty
-                                          ? Container()
-                                          : Text(
-                                              "Aktif " +
-                                                  diffOnline(int.parse(
-                                                      kostByIdController.kost
-                                                          .operatorLastLogout)),
-                                            ),
+                                  : Text(
+                                      "Aktif " +
+                                          diffOnline(int.parse(
+                                              kostByIdController
+                                                  .kost.operatorLastLogin)),
+                                    ),
                             ],
                           ),
                           kostByIdController.kost.operatorAvatar.isEmpty

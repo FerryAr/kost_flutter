@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kost/common/controllers/kost_by_id_controller.dart';
 import 'package:get/get.dart';
 
-const baseUrl = "http://192.168.19.82/kost";
+const baseUrl = "http://192.168.119.9/kost";
 
 class CarouselFoto extends StatefulWidget {
   const CarouselFoto({Key? key}) : super(key: key);

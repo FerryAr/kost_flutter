@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:kost/common/controllers/slider_iklan_controller.dart';
 import 'package:kost/common/helper/get_storage_helper.dart';
 import 'package:kost/model/data_jenis_kost.dart';
@@ -12,7 +11,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
-const baseUrl = "http://192.168.19.82/kost";
+const baseUrl = "http://192.168.119.9/kost";
 const apiKey = "691ACB";
 
 Future<DataJenisKost> fetchDataJenis() async {
@@ -347,41 +346,41 @@ class _HomeState extends State<Home> {
                     categoryCard(),
                     const SizedBox(height: 20),
                     qr(),
-                    const SizedBox(height: 25),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      height: 150,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black12),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          SizedBox(height: 15),
-                          Center(
-                            child: Text(
-                              "Jadi Lebih Tangguh Saat Cari Kos",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            '#TangguhBersama pilih kos terbaik hanya di Mamikos',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black87,
-                              //fontWeight: FontWeight.w100,
-                            ),
-                            //overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
+                    // const SizedBox(height: 25),
+                    // Container(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                    //   height: 150,
+                    //   width: double.infinity,
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(10),
+                    //     border: Border.all(color: Colors.black12),
+                    //   ),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: const [
+                    //       SizedBox(height: 15),
+                    //       Center(
+                    //         child: Text(
+                    //           "Jadi Lebih Tangguh Saat Cari Kos",
+                    //           style: TextStyle(
+                    //             fontSize: 18,
+                    //             fontWeight: FontWeight.bold,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       SizedBox(height: 5),
+                    //       Text(
+                    //         '#TangguhBersama pilih kos terbaik hanya di Mamikos',
+                    //         style: TextStyle(
+                    //           fontSize: 16,
+                    //           color: Colors.black87,
+                    //           //fontWeight: FontWeight.w100,
+                    //         ),
+                    //         //overflow: TextOverflow.ellipsis,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
@@ -394,52 +393,6 @@ class _HomeState extends State<Home> {
             child: searchBox(),
           )
         ],
-      ),
-    );
-  }
-}
-
-class ListItems extends StatelessWidget {
-  const ListItems({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scrollbar(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: ListView(
-          padding: const EdgeInsets.all(8),
-          children: [
-            InkWell(
-              onTap: () {
-                // Navigator.of(context)
-                //   ..pop()
-                //   ..push(
-                //     MaterialPageRoute<SecondRoute>(
-                //       builder: (context) => SecondRoute(),
-                //     ),
-                //   );
-              },
-              child: Container(
-                height: 50,
-                color: Colors.amber[100],
-                child: const Center(child: Text('Entry A')),
-              ),
-            ),
-            const Divider(),
-            Container(
-              height: 50,
-              color: Colors.amber[200],
-              child: const Center(child: Text('Entry B')),
-            ),
-            const Divider(),
-            Container(
-              height: 50,
-              color: Colors.amber[300],
-              child: const Center(child: Text('Entry C')),
-            ),
-          ],
-        ),
       ),
     );
   }

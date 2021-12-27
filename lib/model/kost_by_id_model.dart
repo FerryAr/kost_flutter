@@ -41,8 +41,9 @@ class KostById {
     this.type = '',
     this.harga = '0',
     this.dataOperator = '',
+    this.operatorLastLogin = '',
     this.operatorLastLogout = '',
-    this.operatorLoginStatus = '',
+    //this.operatorLoginStatus = '',
     this.operatorAvatar = '',
     this.foto = const [],
     this.areaTerdekat = '',
@@ -59,8 +60,9 @@ class KostById {
   String harga;
   String dataOperator;
   String operatorAvatar;
+  String operatorLastLogin;
   String operatorLastLogout;
-  String operatorLoginStatus;
+  //String operatorLoginStatus;
   List<String> foto = [];
   String areaTerdekat;
 
@@ -76,8 +78,9 @@ class KostById {
         harga: json["harga"],
         dataOperator: json['operator'],
         operatorAvatar: json['operator_avatar'],
+        operatorLastLogin: json['operator_last_login'],
         operatorLastLogout: json['operator_last_logout'],
-        operatorLoginStatus: json['operator_login_status'],
+        //operatorLoginStatus: json['operator_login_status'],
         foto: List<String>.from(json["foto"].map((x) => x)),
         areaTerdekat: json["area_terdekat"],
       );
