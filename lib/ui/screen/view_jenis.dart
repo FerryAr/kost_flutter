@@ -6,7 +6,7 @@ import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:get/get.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-const baseUrl = "http://192.168.119.9/kost";
+const baseUrl = "http://192.168.157.242/kost";
 const apiKey = "691ACB";
 
 class ViewJenis extends StatelessWidget {

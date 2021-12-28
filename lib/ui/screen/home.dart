@@ -11,7 +11,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
-const baseUrl = "http://192.168.119.9/kost";
+const baseUrl = "http://192.168.157.242/kost";
 const apiKey = "691ACB";
 
 Future<DataJenisKost> fetchDataJenis() async {

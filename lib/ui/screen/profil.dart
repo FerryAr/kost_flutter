@@ -1,15 +1,19 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kost/common/controllers/login_controller.dart';
 import 'package:kost/common/controllers/logout_controller.dart';
 import 'package:kost/common/helper/get_storage_helper.dart';
-import 'package:kost/ui/screen/register.dart';
+//import 'package:kost/ui/screen/register.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_image_picker/form_builder_image_picker.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:kost/common/controllers/register_controller.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-const baseUrl = "http://192.168.119.9/kost";
+const baseUrl = "http://192.168.157.242/kost";
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({Key? key}) : super(key: key);
@@ -24,10 +28,20 @@ class _ProfilScreenState extends State<ProfilScreen> {
   final passwordLoginController = TextEditingController();
 
   //register
-  final firstNameRegisterController = TextEditingController();
-  final lastNameRegisterController = TextEditingController();
-  final emailRegisterController = TextEditingController();
-  final passwordRegisterController = TextEditingController();
+  final formKey = GlobalKey<FormBuilderState>();
+
+  inputDecoration(String label, IconData icon) {
+    return InputDecoration(
+      isDense: true,
+      label: Text(label),
+      prefixIcon: Icon(
+        icon,
+        color: Colors.black,
+      ),
+      enabledBorder: const UnderlineInputBorder(),
+      border: const UnderlineInputBorder(),
+    );
+  }
 
   bool loggedIn = false;
 
@@ -266,70 +280,88 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       showDialog(
                           context: context,
                           builder: (BuildContext dialogContext) {
-                            return RegisterPage();
-                            // return WebView(
-                            //   initialUrl: '$baseUrl/auth/create_user',
-                            // );
-                            // return AlertDialog(
-                            //   title: const Text('REGISTER'),
-                            //   content: Column(
-                            //     crossAxisAlignment: CrossAxisAlignment.start,
-                            //     mainAxisSize: MainAxisSize.min,
-                            //     children: <Widget>[
-                            //       TextField(
-                            //         controller: firstNameRegisterController,
-                            //         decoration: const InputDecoration(
-                            //           icon: Icon(Icons.person),
-                            //           labelText: 'Nama Depan',
-                            //         ),
-                            //       ),
-                            //       TextField(
-                            //         controller: lastNameRegisterController,
-                            //         decoration: const InputDecoration(
-                            //           icon: Icon(Icons.person),
-                            //           labelText: 'Nama Belakang',
-                            //         ),
-                            //       ),
-                            //       TextField(
-                            //         controller: emailRegisterController,
-                            //         decoration: const InputDecoration(
-                            //           icon: Icon(Icons.email),
-                            //           labelText: 'Email',
-                            //         ),
-                            //       ),
-                            //       TextField(
-                            //         obscureText: true,
-                            //         controller: passwordRegisterController,
-                            //         decoration: const InputDecoration(
-                            //           icon: Icon(Icons.lock),
-                            //           labelText: 'Password',
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            //   actions: [
-                            //     DialogButton(
-                            //       onPressed: () {
-                            //         emailLoginController.text != '' &&
-                            //                 passwordLoginController.text != ''
-                            //             ? LoginController().loginProcess(
-                            //                 emailLoginController.text,
-                            //                 passwordLoginController.text,
-                            //               )
-                            //             : Fluttertoast.showToast(
-                            //                 msg:
-                            //                     'Email dan Password tidak boleh kosong',
-                            //                 toastLength: Toast.LENGTH_SHORT,
-                            //               );
-                            //       },
-                            //       child: const Text(
-                            //         "REGISTER",
-                            //         style: TextStyle(
-                            //             color: Colors.white, fontSize: 20),
-                            //       ),
-                            //     )
-                            //   ],
-                            // );
+                            return Scaffold(
+                              appBar: AppBar(
+                                title: const Text('Register'),
+                              ),
+                              body: SingleChildScrollView(
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  child: FormBuilder(
+                                      autovalidateMode:
+                                          AutovalidateMode.disabled,
+                                      key: formKey,
+                                      child: Column(
+                                        children: [
+                                          FormBuilderImagePicker(
+                                            name: 'avatar',
+                                            maxImages: 1,
+                                            decoration: const InputDecoration(
+                                                labelText: 'Foto Profil'),
+                                            validator:
+                                                FormBuilderValidators.required(
+                                                    context),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          FormBuilderTextField(
+                                              name: 'first_name',
+                                              decoration: inputDecoration(
+                                                  'Nama Depan', Icons.person),
+                                              validator: FormBuilderValidators
+                                                  .required(context)),
+                                          const SizedBox(height: 8),
+                                          FormBuilderTextField(
+                                              name: 'last_name',
+                                              decoration: inputDecoration(
+                                                  'Nama Belakang',
+                                                  Icons.person),
+                                              validator: FormBuilderValidators
+                                                  .required(context)),
+                                          const SizedBox(height: 8),
+                                          FormBuilderTextField(
+                                              name: 'no_wa',
+                                              decoration: inputDecoration(
+                                                  'No. Wa', MdiIcons.whatsapp),
+                                              validator: FormBuilderValidators
+                                                  .required(context)),
+                                          const SizedBox(height: 8),
+                                          FormBuilderTextField(
+                                              name: 'email',
+                                              decoration: inputDecoration(
+                                                  'Email', Icons.email),
+                                              validator: FormBuilderValidators
+                                                  .required(context)),
+                                          const SizedBox(height: 8),
+                                          FormBuilderTextField(
+                                              name: 'password',
+                                              obscureText: true,
+                                              decoration: inputDecoration(
+                                                  'Password', Icons.lock),
+                                              validator: FormBuilderValidators
+                                                  .required(context)),
+                                          const SizedBox(height: 16),
+                                          SizedBox(
+                                            width: double.infinity,
+                                            child: CupertinoButton(
+                                                child: const Text('Register'),
+                                                color: Colors.blue,
+                                                onPressed: () {
+                                                  if (formKey.currentState!
+                                                      .saveAndValidate()) {
+                                                    RegisterController()
+                                                        .registerProcess(
+                                                            formKey
+                                                                .currentState!
+                                                                .value,
+                                                            dialogContext);
+                                                  } else {}
+                                                }),
+                                          )
+                                        ],
+                                      )),
+                                ),
+                              ),
+                            );
                           });
                     },
                     child: Row(
