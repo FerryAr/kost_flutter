@@ -30,4 +30,4 @@ jobs:
           tag: ${{ env.APP_VERSION }}
           name: ${{ env.APP_VERSION }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: 'build/app/outputs/apk/profile/*.apk'
+          artifacts: 'build/app/outputs/flutter-apk/*.apk'
