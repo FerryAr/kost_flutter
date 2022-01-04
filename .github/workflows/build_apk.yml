@@ -1,0 +1,33 @@
+on:
+  workflow_dispatch:
+
+name: Build Profile APK
+jobs:
+  build:
+    name: Build Apps
+    runs-on: macos-latest
+    steps:
+      - name: Export Release Timestamp
+        run: echo "APP_VERSION=v$(date +'%Y.%m.%d.%H.%m.%S')" >> $GITHUB_ENV
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '15'
+          distribution: 'adopt'
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - name: Install pub Dependencies
+        run: flutter pub get
+      - name: Build Android App
+        run: flutter build apk --profile --no-sound-null-safety 
+      - name: Release Apps
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.APP_VERSION }}
+          name: ${{ env.APP_VERSION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: 'build/app/outputs/apk/profile/*.apk'
