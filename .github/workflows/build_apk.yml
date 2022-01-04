@@ -23,7 +23,7 @@ jobs:
       - name: Install pub Dependencies
         run: flutter pub get
       - name: Build Android App
-        run: flutter build apk --profile --no-sound-null-safety --no-tree-shake-icons
+        run: flutter build apk --split-per-abi --release --no-tree-shake-icons
       - name: Release Apps
         uses: ncipollo/release-action@v1
         with:
