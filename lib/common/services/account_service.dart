@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:http/http.dart' as http;
@@ -8,7 +7,7 @@ import 'package:kost/model/login_data_model.dart';
 import 'package:kost/model/register_model.dart';
 import 'package:kost/model/logout_model.dart';
 
-const baseUrl = "http://192.168.157.242";
+const baseUrl = "https://kost.diengcyber.com";
 const apiKey = "691ACB";
 
 class AccountService extends GetConnect {
@@ -22,7 +21,7 @@ class AccountService extends GetConnect {
     }
     //print(fileName);
     final request =
-        http.MultipartRequest("POST", Uri.parse("$baseUrl/kost/api/register"));
+        http.MultipartRequest("POST", Uri.parse("$baseUrl/api/register"));
     request.fields['apiKey'] = apiKey;
     request.fields['first_name'] = form["first_name"];
     request.fields['last_name'] = form["last_name"];
@@ -63,7 +62,7 @@ class AccountService extends GetConnect {
   Future<LoginDataModel> loginProcessService(
       String email, String password) async {
     final response = await post(
-        "$baseUrl/kost/api/login",
+        "$baseUrl/api/login",
         FormData({
           "apiKey": apiKey,
           "email": email,
@@ -78,7 +77,7 @@ class AccountService extends GetConnect {
 
   Future<LogoutModel> logoutProcessService(String userId) async {
     final response = await post(
-        "$baseUrl/kost/api/logout",
+        "$baseUrl/api/logout",
         FormData({
           "apiKey": apiKey,
           "user_id": userId,

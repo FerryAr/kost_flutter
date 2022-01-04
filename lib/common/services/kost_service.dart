@@ -4,12 +4,12 @@ import 'package:kost/model/kost_by_jenis.dart';
 import 'package:kost/model/kost_detail_model.dart';
 import 'package:kost/model/kost_fasilitas_model.dart';
 
-const baseUrl = "http://192.168.157.242";
+const baseUrl = "https://kost.diengcyber.com";
 const apiKey = "691ACB";
 
 class KostService extends GetConnect {
   Future<KostByJenis> fetchDataKostJenis(String idJenis) async {
-    final response = await post("$baseUrl/kost/api/get_kost_by_jenis",
+    final response = await post("$baseUrl/api/get_kost_by_jenis",
         FormData({'apiKey': apiKey, 'jenis': idJenis}));
 
     if (response.statusCode == 200) {
@@ -20,8 +20,8 @@ class KostService extends GetConnect {
   }
 
   Future<KostByIdModel> fetchDataKostById(String idKost) async {
-    final response = await post("$baseUrl/kost/api/get_kost",
-        FormData({'apiKey': apiKey, 'id': idKost}));
+    final response = await post(
+        "$baseUrl/api/get_kost", FormData({'apiKey': apiKey, 'id': idKost}));
 
     if (response.statusCode == 200) {
       return KostByIdModel.fromJson(response.body);
@@ -31,7 +31,7 @@ class KostService extends GetConnect {
   }
 
   Future<KostDetailModel> fetchDataKostDetail(String idKost) async {
-    final response = await post("$baseUrl/kost/api/get_kost_detail",
+    final response = await post("$baseUrl/api/get_kost_detail",
         FormData({'apiKey': apiKey, 'id_kost': idKost}));
 
     if (response.statusCode == 200) {
@@ -42,7 +42,7 @@ class KostService extends GetConnect {
   }
 
   Future<KostFasilitasModel> fetchDataFasilitasKost(String idKost) async {
-    final response = await post("$baseUrl/kost/api/get_fasilitas",
+    final response = await post("$baseUrl/api/get_fasilitas",
         FormData({'apiKey': apiKey, 'id_kost': idKost}));
 
     if (response.statusCode == 200) {
@@ -53,7 +53,7 @@ class KostService extends GetConnect {
   }
 
   Future<KostByJenis> fetchDataKostInput(String input) async {
-    final response = await post("$baseUrl/kost/api/get_kost_by_input",
+    final response = await post("$baseUrl/api/get_kost_by_input",
         FormData({'apiKey': apiKey, 'input': input}));
 
     if (response.statusCode == 200) {

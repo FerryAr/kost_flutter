@@ -13,7 +13,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:kost/common/controllers/register_controller.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-const baseUrl = "http://192.168.157.242/kost";
+const baseUrl = "https://kost.diengcyber.com";
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({Key? key}) : super(key: key);

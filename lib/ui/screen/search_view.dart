@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:kost/common/controllers/kost_by_input_controller.dart';
 import 'package:kost/ui/widgets/custom_card.dart';
 
-const baseUrl = "http://192.168.157.242/kost";
+const baseUrl = "https://kost.diengcyber.com";
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
