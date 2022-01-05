@@ -1,8 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.kost">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.diengcyber.kost">
   <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
-  <application android:label="kost" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
+  <application android:label="Kost" android:icon="@mipmap/ic_launcher" android:usesCleartextTraffic="true">
     
 
 

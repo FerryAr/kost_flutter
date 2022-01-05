@@ -33,7 +33,6 @@ class AccountService extends GetConnect {
 
     http.StreamedResponse response = await request.send();
     var responseJson = await response.stream.bytesToString();
-    print(responseJson);
 
     if (response.statusCode == 200) {
       return RegisterModel.fromJson(json.decode(responseJson));

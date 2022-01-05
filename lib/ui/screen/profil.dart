@@ -354,7 +354,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                                                                 .currentState!
                                                                 .value,
                                                             dialogContext);
-                                                  } else {}
+                                                  }
                                                 }),
                                           )
                                         ],

@@ -1,4 +1,4 @@
-package com.example.kost
+package com.diengcyber.kost
 
 import io.flutter.embedding.android.FlutterActivity
 
