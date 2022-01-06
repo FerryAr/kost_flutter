@@ -59,7 +59,7 @@ class Kost {
   factory Kost.fromJson(Map<String, dynamic> json) => Kost(
         idKost: json["id_kost"],
         namaKost: json["nama_kost"],
-        pemilik: json["pemilik"],
+        //pemilik: json["pemilik"],
         alamat: json["alamat"],
         noHp: json["no_hp"],
         jenisId: json["jenis_id"],
@@ -73,7 +73,7 @@ class Kost {
   Map<String, dynamic> toJson() => {
         "id_kost": idKost,
         "nama_kost": namaKost,
-        "pemilik": pemilik,
+        //"pemilik": pemilik,
         "alamat": alamat,
         "no_hp": noHp,
         "jenis_id": jenisId,
