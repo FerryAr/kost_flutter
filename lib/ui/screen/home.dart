@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:kost/common/controllers/blog_controller.dart';
 import 'package:kost/common/controllers/slider_iklan_controller.dart';
 import 'package:kost/common/helper/get_storage_helper.dart';
 import 'package:kost/model/data_jenis_kost.dart';
@@ -39,6 +41,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    setState(() {});
     futureDataJenis = fetchDataJenis();
   }
 
@@ -139,18 +142,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  //void _passDataJenis(BuildContext context, String idJenis, String namaJenis) {
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => ViewJenis(
-  //           // idJenis: idJenis,
-  //           // namaJenis: namaJenis,
-  //           ),
-  //     ),
-  //   );
-  // }
-
   Widget categoryCard() {
     // ignore: sized_box_for_whitespace
     return Container(
@@ -160,6 +151,9 @@ class _HomeState extends State<Home> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
+              primary: false,
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: snapshot.data!.data.length,
               itemBuilder: (context, index) {
@@ -169,10 +163,6 @@ class _HomeState extends State<Home> {
                   shadowOpacity: .5,
                   width: 120,
                   margin: const EdgeInsets.only(right: 10),
-                  // onTap: () {
-                  //   _passDataJenis(context, snapshot.data!.data[index].id,
-                  //       snapshot.data!.data[index].jenis);
-                  // },
                   onTap: () => Get.toNamed('/viewjenis', arguments: {
                     'idJenis': snapshot.data!.data[index].id,
                     'namaJenis': snapshot.data!.data[index].jenis,
@@ -302,6 +292,59 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget blog() {
+    final blogController = Get.put(BlogController());
+    return Obx(
+      () => StaggeredGridView.countBuilder(
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        itemCount: blogController.getDaftarBlog.length,
+        itemBuilder: (context, index) {
+          final blog = blogController.getDaftarBlog[index];
+          return CustomCard(
+            isShadow: true,
+            bgColor: Colors.white,
+            shadowOpacity: .5,
+            //width: double.infinity,
+            height: 200,
+            margin: const EdgeInsets.only(right: 10),
+            shadowBlur: 10,
+            onTap: () {},
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          "$baseUrl/assets/img/blog_thumb/${blog.thumbnail}",
+                      fit: BoxFit.fill,
+                      //width: double.infinity,
+                      height: 150,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    blog.judul,
+                    style: const TextStyle(),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+                // Text(
+                //   ,
+                // )
+              ],
+            ),
+          );
+        },
+        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -314,7 +357,11 @@ class _HomeState extends State<Home> {
       body: Stack(
         children: [
           SingleChildScrollView(
+            primary: true,
+            physics: const AlwaysScrollableScrollPhysics(),
             child: ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              primary: false,
               shrinkWrap: true,
               padding: const EdgeInsets.all(20),
               children: [
@@ -345,44 +392,24 @@ class _HomeState extends State<Home> {
                     const SizedBox(height: 15),
                     categoryCard(),
                     const SizedBox(height: 20),
-                    qr(),
-                    // const SizedBox(height: 25),
-                    // Container(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 10),
-                    //   height: 150,
-                    //   width: double.infinity,
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(10),
-                    //     border: Border.all(color: Colors.black12),
-                    //   ),
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //     children: const [
-                    //       SizedBox(height: 15),
-                    //       Center(
-                    //         child: Text(
-                    //           "Jadi Lebih Tangguh Saat Cari Kos",
-                    //           style: TextStyle(
-                    //             fontSize: 18,
-                    //             fontWeight: FontWeight.bold,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       SizedBox(height: 5),
-                    //       Text(
-                    //         '#TangguhBersama pilih kos terbaik hanya di Mamikos',
-                    //         style: TextStyle(
-                    //           fontSize: 16,
-                    //           color: Colors.black87,
-                    //           //fontWeight: FontWeight.w100,
-                    //         ),
-                    //         //overflow: TextOverflow.ellipsis,
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
+                const Text(
+                  'Blog',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const Divider(
+                  thickness: 1.5,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                blog(),
               ],
             ),
           ),
