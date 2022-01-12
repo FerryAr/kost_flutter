@@ -35,7 +35,6 @@ class Kost {
     this.namaKost = '',
     this.pemilik = '',
     this.alamat = '',
-    this.noHp = '',
     this.jenisId = '',
     this.jenis = '',
     this.type = '',
@@ -48,7 +47,6 @@ class Kost {
   String namaKost;
   String pemilik;
   String alamat;
-  String noHp;
   String jenisId;
   String jenis;
   String type;
@@ -61,7 +59,6 @@ class Kost {
         namaKost: json["nama_kost"],
         //pemilik: json["pemilik"],
         alamat: json["alamat"],
-        noHp: json["no_hp"],
         jenisId: json["jenis_id"],
         jenis: json["jenis"],
         type: json["type"],
@@ -75,7 +72,6 @@ class Kost {
         "nama_kost": namaKost,
         //"pemilik": pemilik,
         "alamat": alamat,
-        "no_hp": noHp,
         "jenis_id": jenisId,
         "jenis": jenis,
         "type": type,
