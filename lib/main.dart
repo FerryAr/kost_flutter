@@ -4,6 +4,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kost/ui/screen/blog_detail.dart';
 import 'package:kost/ui/screen/home.dart';
 import 'package:kost/ui/screen/kost_detail.dart';
 import 'package:kost/ui/screen/profil.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/kostbyid', page: () => KostDetail()),
         GetPage(name: '/searchview', page: () => const SearchView()),
         GetPage(name: '/profil', page: () => const ProfilScreen()),
+        GetPage(name: '/blogdetail', page: () => const BlogDetail()),
       ],
     );
   }

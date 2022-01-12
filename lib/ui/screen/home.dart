@@ -12,6 +12,7 @@ import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:html/parser.dart';
 
 const baseUrl = "https://kost.diengcyber.com";
 const apiKey = "691ACB";
@@ -294,133 +295,197 @@ class _HomeState extends State<Home> {
 
   Widget blog() {
     final blogController = Get.put(BlogController());
-    return Obx(
-      () => StaggeredGridView.countBuilder(
-        shrinkWrap: true,
-        crossAxisCount: 2,
-        itemCount: blogController.getDaftarBlog.length,
-        itemBuilder: (context, index) {
-          final blog = blogController.getDaftarBlog[index];
-          return CustomCard(
-            isShadow: true,
-            bgColor: Colors.white,
-            shadowOpacity: .5,
-            //width: double.infinity,
-            height: 200,
-            margin: const EdgeInsets.only(right: 10),
-            shadowBlur: 10,
-            onTap: () {},
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          "$baseUrl/assets/img/blog_thumb/${blog.thumbnail}",
-                      fit: BoxFit.fill,
-                      //width: double.infinity,
-                      height: 150,
+    return StaggeredGridView.countBuilder(
+      shrinkWrap: true,
+      primary: false,
+      crossAxisCount: 3,
+      itemCount: blogController.getDaftarBlog.length,
+      itemBuilder: (context, index) {
+        final blog = blogController.getDaftarBlog[index];
+        return CustomCard(
+          isShadow: true,
+          bgColor: Colors.white,
+          shadowOpacity: .5,
+          //width: double.infinity,
+          height: 250,
+          margin: const EdgeInsets.only(right: 10),
+          shadowBlur: 10,
+          onTap: () {},
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "$baseUrl/assets/img/blog_thumb/${blog.thumbnail}",
+                    fit: BoxFit.fill,
+                    //width: double.infinity,
+                    height: 150,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Center(
+                  child: Text(
+                    blog.judul,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 7, bottom: 5),
+                //padding: const EdgeInsets.all(10),
+                height: 25,
+                width: 70,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.black12),
+                  //color: Colors.black,
+                ),
+                child: Center(
                   child: Text(
-                    blog.judul,
-                    style: const TextStyle(),
-                    textAlign: TextAlign.start,
+                    blog.kategori,
+                    style: const TextStyle(
+                      fontSize: 12,
+                    ),
                   ),
                 ),
-                // Text(
-                //   ,
-                // )
-              ],
-            ),
-          );
-        },
-        staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
-      ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                child: RichText(
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+                  strutStyle: const StrutStyle(
+                    fontSize: 12,
+                  ),
+                  text: TextSpan(
+                    style: const TextStyle(color: Colors.black),
+                    text: parse(blog.isi).documentElement!.text,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 5, right: 5),
+                  child: InkWell(
+                    onTap: () {
+                      Get.toNamed('/blogdetail', arguments: blog);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.green[500],
+                      ),
+                      child: const Text(
+                        'Selengkapnya',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // Text(
+              //   ,
+              // )
+            ],
+          ),
+        );
+      },
+      staggeredTileBuilder: (int index) => const StaggeredTile.fit(1),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: tabBar(),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            primary: true,
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              primary: false,
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(20),
-              children: [
-                const SizedBox(height: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    return Obx(() => Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: tabBar(),
+            backgroundColor: Colors.white,
+            elevation: 0,
+          ),
+          body: Stack(
+            children: [
+              SingleChildScrollView(
+                primary: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: ListView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  primary: false,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(20),
                   children: [
-                    const SizedBox(height: 25),
-                    carouselIklan(),
-                    const SizedBox(height: 25),
-                    const Text(
-                      "Hai, ",
-                      style: TextStyle(
-                        fontSize: 15,
-                        //fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                    const SizedBox(height: 15),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 25),
+                        carouselIklan(),
+                        const SizedBox(height: 25),
+                        const Text(
+                          "Hai, ",
+                          style: TextStyle(
+                            fontSize: 15,
+                            //fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        const Text(
+                          "Lagi Cari Apa?",
+                          style: TextStyle(
+                            fontSize: 20,
+                            //fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        categoryCard(),
+                        const SizedBox(height: 20),
+                      ],
                     ),
-                    const SizedBox(height: 2),
-                    const Text(
-                      "Lagi Cari Apa?",
+                    Text(
+                      'Blog',
                       style: TextStyle(
                         fontSize: 20,
                         //fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.grey[500],
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 15),
-                    categoryCard(),
-                    const SizedBox(height: 20),
+                    const Divider(
+                      thickness: 1.5,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    blog(),
                   ],
                 ),
-                const Text(
-                  'Blog',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const Divider(
-                  thickness: 1.5,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                blog(),
-              ],
-            ),
+              ),
+              Positioned(
+                top: 1,
+                left: 10,
+                right: 10,
+                child: searchBox(),
+              )
+            ],
           ),
-          Positioned(
-            top: 1,
-            left: 10,
-            right: 10,
-            child: searchBox(),
-          )
-        ],
-      ),
-    );
+        ));
   }
 }

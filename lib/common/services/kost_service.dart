@@ -62,4 +62,26 @@ class KostService extends GetConnect {
       throw Exception('an error occured');
     }
   }
+
+  Future<KostByJenis> fetchDataKostUnggulan() async {
+    final response = await post(
+        "$baseUrl/api/get_kost_unggulan", FormData({'apiKey': apiKey}));
+
+    if (response.statusCode == 200) {
+      return KostByJenis.fromJson(response.body);
+    } else {
+      throw Exception('an error occured');
+    }
+  }
+
+  Future<KostByJenis> fetchDataKostTerbaru() async {
+    final response = await post(
+        "$baseUrl/api/get_kost_terbaru", FormData({'apiKey': apiKey}));
+
+    if (response.statusCode == 200) {
+      return KostByJenis.fromJson(response.body);
+    } else {
+      throw Exception('an error occured');
+    }
+  }
 }
