@@ -41,6 +41,7 @@ class Kost {
     this.harga = '',
     this.areaTerdekat = '',
     this.foto = '',
+    this.unggulan = '',
   });
 
   String idKost;
@@ -53,6 +54,7 @@ class Kost {
   String harga;
   String areaTerdekat;
   String foto;
+  String unggulan;
 
   factory Kost.fromJson(Map<String, dynamic> json) => Kost(
         idKost: json["id_kost"],
@@ -65,6 +67,7 @@ class Kost {
         harga: json["harga"],
         areaTerdekat: json["area_terdekat"],
         foto: json["foto"],
+        unggulan: json["unggulan"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -78,5 +81,6 @@ class Kost {
         "harga": harga,
         "area_terdekat": areaTerdekat,
         "foto": foto,
+        "unggulan": unggulan,
       };
 }

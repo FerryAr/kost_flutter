@@ -47,6 +47,7 @@ class KostById {
     this.operatorAvatar = '',
     this.foto = const [],
     this.areaTerdekat = '',
+    this.unggulan = '',
   });
 
   String idKost;
@@ -65,6 +66,7 @@ class KostById {
   //String operatorLoginStatus;
   List<String> foto = [];
   String areaTerdekat;
+  String unggulan;
 
   factory KostById.fromJson(Map<String, dynamic> json) => KostById(
         idKost: json["id_kost"],
@@ -83,6 +85,7 @@ class KostById {
         //operatorLoginStatus: json['operator_login_status'],
         foto: List<String>.from(json["foto"].map((x) => x)),
         areaTerdekat: json["area_terdekat"],
+        unggulan: json["unggulan"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -98,5 +101,6 @@ class KostById {
         "operator": dataOperator,
         "foto": List<dynamic>.from(foto.map((x) => x)),
         "area_terdekat": areaTerdekat,
+        "unggulan": unggulan,
       };
 }
