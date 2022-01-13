@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kost/common/services/blog_service.dart';
 import 'package:kost/model/blog_by_id_model.dart';
 
 class BlogByIdController extends GetxController {
@@ -16,5 +17,12 @@ class BlogByIdController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    setIdBlog = Get.arguments['idBlog'];
+
+    getBlogById(getIdBlog);
+  }
+
+  void getBlogById(String idBlog) async {
+    setBlog = (await BlogService().fetchBlogById(idBlog)).data;
   }
 }
