@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kost/common/controllers/blog_controller.dart';
 import 'package:kost/common/controllers/kost_terbaru_controller.dart';
+import 'package:kost/common/controllers/kost_unggulan_controller.dart';
 import 'package:kost/common/controllers/slider_iklan_controller.dart';
 import 'package:kost/common/helper/get_storage_helper.dart';
 import 'package:kost/model/data_jenis_kost.dart';
@@ -40,6 +41,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late Future<DataJenisKost> futureDataJenis;
   int _current = 0;
+  final kostUnggulanController = Get.put(KostUnggulan());
+  final kostTerbaruController = Get.put(KostTerbaruController());
 
   @override
   void initState() {
@@ -422,10 +425,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget kostTerbaru() {
-    final kostTerbaruController = Get.put(KostTerbaruController());
     return SizedBox(
-      width: 200,
-      height: 300,
+      height: 200,
       child: ListView.builder(
         primary: false,
         shrinkWrap: true,
@@ -437,8 +438,131 @@ class _HomeState extends State<Home> {
             isShadow: true,
             bgColor: Colors.white,
             shadowOpacity: .5,
-            width: 120,
-            margin: const EdgeInsets.all(15),
+            width: 150,
+            //margin: const EdgeInsets.only(top: 8),
+            onTap: () {
+              Get.toNamed("/kostbyid", arguments: {
+                'idKost': kost.idKost,
+                //'namaKost': kost.namaKost,
+              });
+            },
+            shadowBlur: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: "$baseUrl/assets/img/foto_kost/${kost.foto}",
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(6),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(left: 3, bottom: 5),
+                        //padding: const EdgeInsets.all(10),
+                        height: 25,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black12),
+                          //color: Colors.black,
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Kos " + kost.type,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 3),
+                        child: Text(
+                          "Kost " + kost.namaKost,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            //fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Container(
+                        margin: const EdgeInsets.only(top: 3),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.black,
+                              size: 18,
+                            ),
+                            Text(
+                              kost.alamat,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 15, left: 6),
+                        child: Text(
+                          NumberFormat.simpleCurrency(
+                                      locale: 'id_ID', decimalDigits: 0)
+                                  .format(int.parse(kost.harga)) +
+                              " " +
+                              satuanHarga[int.parse(kost.jenisId) - 1],
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget kostUnggulan() {
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        primary: false,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: kostUnggulanController.getKostUnggulan.length,
+        itemBuilder: (context, index) {
+          final kost = kostUnggulanController.getKostUnggulan[index];
+          return CustomCard(
+            isShadow: true,
+            bgColor: Colors.white,
+            shadowOpacity: .5,
+            width: 150,
+            //margin: const EdgeInsets.only(top: 8),
             onTap: () {
               Get.toNamed("/kostbyid", arguments: {
                 'idKost': kost.idKost,
@@ -595,8 +719,24 @@ class _HomeState extends State<Home> {
                         const SizedBox(height: 20),
                       ],
                     ),
+                    kostTerbaruController.getKostTerbaru.isEmpty
+                        ? const SizedBox(height: 0)
+                        : Text( 
+                            'Kost Terbaru',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.grey[500],
+                              //fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                    const Divider(
+                      thickness: 1.5,
+                    ),
+                    kostTerbaru(),
+                    const SizedBox(height: 10),
                     Text(
-                      'Kost Terbaru',
+                      'Kost Unggulan',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.grey[500],
@@ -607,7 +747,7 @@ class _HomeState extends State<Home> {
                     const Divider(
                       thickness: 1.5,
                     ),
-                    kostTerbaru(),
+                    kostUnggulan(),
                     const SizedBox(height: 10),
                     Text(
                       'Blog',
