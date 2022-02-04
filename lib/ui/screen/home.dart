@@ -721,20 +721,25 @@ class _HomeState extends State<Home> {
                     ),
                     kostTerbaruController.getKostTerbaru.isEmpty
                         ? const SizedBox(height: 0)
-                        : Text( 
-                            'Kost Terbaru',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.grey[500],
-                              //fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text( 
+                                'Kost Terbaru',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.grey[500],
+                                //fontWeight: FontWeight.bold,
+                              ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const Divider(
+                                thickness: 1.5,
+                              ),
+                              kostTerbaru(),
+                              const SizedBox(height: 10),
+                            ]
                           ),
-                    const Divider(
-                      thickness: 1.5,
-                    ),
-                    kostTerbaru(),
-                    const SizedBox(height: 10),
                     Text(
                       'Kost Unggulan',
                       style: TextStyle(
