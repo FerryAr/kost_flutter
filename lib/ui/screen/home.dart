@@ -722,7 +722,7 @@ class _HomeState extends State<Home> {
                     kostTerbaruController.getKostTerbaru.isEmpty
                         ? const SizedBox(height: 0)
                         : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text( 
                                 'Kost Terbaru',
