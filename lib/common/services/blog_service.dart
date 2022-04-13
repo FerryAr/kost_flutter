@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:kost/model/blog_by_id_model.dart';
 import 'package:kost/model/blog_model.dart';
 
-const baseUrl = 'https://kost.diengcyber.com';
+const baseUrl = 'https://kost-api.my.id';
 const apiKey = '691ACB';
 
 class BlogService extends GetConnect {

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
@@ -11,8 +14,19 @@ import 'package:kost/ui/screen/profil.dart';
 import 'package:kost/ui/screen/search_view.dart';
 import 'package:kost/ui/screen/view_jenis.dart';
 
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
+
 void main() async {
   await GetStorage.init();
+  //ByteData data = await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
+    //SecurityContext.defaultContext.setTrustedCertificatesBytes(data.buffer.asUint8List());
+  //HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 

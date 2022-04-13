@@ -4,7 +4,7 @@ import 'package:kost/model/kost_by_jenis.dart';
 import 'package:kost/model/kost_detail_model.dart';
 import 'package:kost/model/kost_fasilitas_model.dart';
 
-const baseUrl = "https://kost.diengcyber.com";
+const baseUrl = "https://kost-api.my.id/";
 const apiKey = "691ACB";
 
 class KostService extends GetConnect {

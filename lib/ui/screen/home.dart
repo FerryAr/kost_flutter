@@ -17,7 +17,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:html/parser.dart';
 
-const baseUrl = "https://kost.diengcyber.com";
+const baseUrl = "https://kost-api.my.id/";
 const apiKey = "691ACB";
 
 Future<DataJenisKost> fetchDataJenis() async {

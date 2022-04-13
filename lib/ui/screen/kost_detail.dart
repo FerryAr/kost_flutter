@@ -11,7 +11,7 @@ import 'package:kost/ui/widgets/carousel_kost_foto.dart';
 import 'package:kost/ui/widgets/custom_card.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-const baseUrl = "https://kost.diengcyber.com";
+const baseUrl = "https://kost-api.my.id";
 
 class KostDetail extends StatelessWidget {
   final kostByIdController = Get.put(KostByIdController());

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:kost/model/slider_iklan_model.dart';
 
-const baseUrl = "https://kost.diengcyber.com";
+const baseUrl = "https://kost-api.my.id/";
 const apiKey = "691ACB";
 
 class SliderService extends GetConnect {

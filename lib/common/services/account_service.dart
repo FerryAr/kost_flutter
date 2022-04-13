@@ -7,7 +7,7 @@ import 'package:kost/model/login_data_model.dart';
 import 'package:kost/model/register_model.dart';
 import 'package:kost/model/logout_model.dart';
 
-const baseUrl = "https://kost.diengcyber.com";
+const baseUrl = "https://kost-api.my.id";
 const apiKey = "691ACB";
 
 class AccountService extends GetConnect {
